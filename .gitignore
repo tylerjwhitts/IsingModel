@@ -1,2 +1,7 @@
 *.png
 *.gif
+*.json
+*.yml
+*.plist
+.DS_Store
+isingMarkovChainMonteCarlo
