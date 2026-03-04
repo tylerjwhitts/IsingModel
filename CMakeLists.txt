@@ -4,5 +4,5 @@ project(IsingModel)
 set(CMAKE_CXX_STANDARD_17)
 
 # pybind11
-add_subdirectory(./pybind11)
+add_subdirectory(extern/pybind11)
 pybind11_add_module(IsingMarkovChainMonteCarlo ./source/isingMarkovChainMonteCarlo.cpp)

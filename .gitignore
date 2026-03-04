@@ -4,4 +4,5 @@
 *.yml
 *.plist
 .DS_Store
-isingMarkovChainMonteCarlo
+source/isingMarkovChainMonteCarlo
+isingMarkovChainMonteCarlo.dSYM

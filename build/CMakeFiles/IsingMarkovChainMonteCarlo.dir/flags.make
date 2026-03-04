@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DIsingMarkovChainMonteCarlo_EXPORTS
 
-CXX_INCLUDES = -isystem /opt/homebrew/opt/python@3.14/Frameworks/Python.framework/Versions/3.14/include/python3.14 -isystem /Users/a1744052/Documents/Projects/IsingModel/pybind11/include
+CXX_INCLUDES = -isystem /opt/homebrew/opt/python@3.14/Frameworks/Python.framework/Versions/3.14/include/python3.14 -isystem /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include
 
 CXX_FLAGSarm64 =  -arch arm64 -fPIC -fvisibility=hidden -flto
 

@@ -329,13 +329,13 @@ Python_INCLUDE_DIR:FILEPATH=/opt/homebrew/opt/python@3.14/Frameworks/Python.fram
 Python_LIBRARY:FILEPATH=/opt/homebrew/opt/python@3.14/Frameworks/Python.framework/Versions/3.14/lib/libpython3.14.dylib
 
 //Value Computed by CMake
-pybind11_BINARY_DIR:STATIC=/Users/a1744052/Documents/Projects/IsingModel/build/pybind11
+pybind11_BINARY_DIR:STATIC=/Users/a1744052/Documents/Projects/IsingModel/build/extern/pybind11
 
 //Value Computed by CMake
 pybind11_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
-pybind11_SOURCE_DIR:STATIC=/Users/a1744052/Documents/Projects/IsingModel/pybind11
+pybind11_SOURCE_DIR:STATIC=/Users/a1744052/Documents/Projects/IsingModel/extern/pybind11
 
 
 ########################
@@ -521,7 +521,7 @@ FIND_PACKAGE_MESSAGE_DETAILS_Python:INTERNAL=[/Users/a1744052/Documents/Projects
 HAS_FLTO:INTERNAL=1
 //Test HAS_FLTO_THIN
 HAS_FLTO_THIN:INTERNAL=1
-PYBIND11_INCLUDE_DIR:INTERNAL=/Users/a1744052/Documents/Projects/IsingModel/pybind11/include
+PYBIND11_INCLUDE_DIR:INTERNAL=/Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include
 //Python executable during the last CMake run
 PYBIND11_PYTHON_EXECUTABLE_LAST:INTERNAL=/Users/a1744052/Documents/Projects/IsingModel/.venv/bin/python3.14
 //Python debug status
@@ -555,7 +555,7 @@ _Python_NumPy_REASON_FAILURE:INTERNAL=
 //True if pybind11 and all required components found on the system
 pybind11_FOUND:INTERNAL=TRUE
 //Directory where pybind11 headers are located
-pybind11_INCLUDE_DIR:INTERNAL=/Users/a1744052/Documents/Projects/IsingModel/pybind11/include
+pybind11_INCLUDE_DIR:INTERNAL=/Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include
 //Directories where pybind11 and possibly Python headers are located
-pybind11_INCLUDE_DIRS:INTERNAL=/Users/a1744052/Documents/Projects/IsingModel/pybind11/include;/opt/homebrew/opt/python@3.14/Frameworks/Python.framework/Versions/3.14/include/python3.14
+pybind11_INCLUDE_DIRS:INTERNAL=/Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include;/opt/homebrew/opt/python@3.14/Frameworks/Python.framework/Versions/3.14/include/python3.14
 

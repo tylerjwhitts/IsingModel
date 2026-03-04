@@ -823,11 +823,11 @@ CMakeFiles/IsingMarkovChainMonteCarlo.dir/source/isingMarkovChainMonteCarlo.cpp.
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/chrono \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__chrono/file_clock.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/forward_list \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/pybind11.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/class.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/attr.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/common.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/conduit/wrap_include_python_h.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/pybind11.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/class.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/attr.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/common.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/conduit/wrap_include_python_h.h \
   /opt/homebrew/opt/python@3.14/Frameworks/Python.framework/Versions/3.14/include/python3.14/Python.h \
   /opt/homebrew/opt/python@3.14/Frameworks/Python.framework/Versions/3.14/include/python3.14/patchlevel.h \
   /opt/homebrew/opt/python@3.14/Frameworks/Python.framework/Versions/3.14/include/python3.14/pyconfig.h \
@@ -968,41 +968,40 @@ CMakeFiles/IsingMarkovChainMonteCarlo.dir/source/isingMarkovChainMonteCarlo.cpp.
   /opt/homebrew/opt/python@3.14/Frameworks/Python.framework/Versions/3.14/include/python3.14/cpython/tracemalloc.h \
   /opt/homebrew/opt/python@3.14/Frameworks/Python.framework/Versions/3.14/include/python3.14/frameobject.h \
   /opt/homebrew/opt/python@3.14/Frameworks/Python.framework/Versions/3.14/include/python3.14/cpython/frameobject.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/pybind11_namespace_macros.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/pybind11_namespace_macros.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/barrier \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/typeindex \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/unordered_set \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/cast.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/argument_vector.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/pytypes.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/buffer_info.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/descr.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/holder_caster_foreign_helpers.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/gil.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/internals.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/conduit/pybind11_platform_abi_id.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/gil_simple.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/cast.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/argument_vector.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/pytypes.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/buffer_info.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/descr.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/holder_caster_foreign_helpers.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/gil.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/internals.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/conduit/pybind11_platform_abi_id.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/gil_simple.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/cassert \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/trampoline_self_life_support.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/using_smart_holder.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/struct_smart_holder.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/value_and_holder.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/trampoline_self_life_support.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/using_smart_holder.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/struct_smart_holder.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/value_and_holder.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/thread \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__thread/this_thread.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__thread/thread.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/sstream \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/native_enum_data.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/../pytypes.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/type_caster_base.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/cpp_conduit.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/dynamic_raw_ptr_cast_if_possible.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/typeid.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/native_enum_data.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/../pytypes.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/type_caster_base.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/cpp_conduit.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/dynamic_raw_ptr_cast_if_possible.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/typeid.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/cxxabi.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__cxxabi_config.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/options.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/exception_translation.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/function_record_pyobject.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/function_ref.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/detail/init.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/gil_safe_call_once.h \
-  /Users/a1744052/Documents/Projects/IsingModel/pybind11/include/pybind11/typing.h
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/options.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/exception_translation.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/function_record_pyobject.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/detail/init.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/gil_safe_call_once.h \
+  /Users/a1744052/Documents/Projects/IsingModel/extern/pybind11/include/pybind11/typing.h
