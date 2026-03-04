@@ -2,7 +2,9 @@
 #include <vector>
 #include <random>
 #include <chrono>
+#include <list>
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 using namespace std;
 
@@ -71,6 +73,20 @@ int deltaE(vector<vector<int>> spins, vector<int> spin_to_flip){
     return 2 * spins[i][j] * nn_sum;
 }
 
+double getMagSq(vector<vector<int>> spins){
+    size_t rows = spins.size();
+    size_t cols = (rows > 0) ? spins[0].size() : 0;
+    size_t total_size = rows * cols;
+    double spin_sum = 0.0;
+    for (int i=0; i < rows; ++i) {
+        for (int j=0; j < cols; ++j) {
+            spin_sum += spins[i][j];
+        }
+    }
+    double mag = spin_sum / total_size;
+    return mag * mag;
+}
+
 void printSpinMatrix(vector<vector<int>> spins){
     size_t rows = spins.size();
     size_t cols = spins[0].size();
@@ -120,7 +136,7 @@ void runEnergyCalculationTests(size_t latticeLength) {
     cout << "The value of deltaE calculated using the Energy function is " << dE_manual << endl;
 }
 
-void runMarkovChain(size_t L, double temperature, int numSteps, int numSweeps, int transientSweeps=20, bool outputProgress=false){
+tuple<list<double>, list<double>> runMarkovChain(size_t L, double temperature, int numSteps, int numSweeps, int transientSweeps=20, bool outputProgress=false){
     
     vector<vector<int>> spins = generateRandomSpinMatrix(L, L);
     size_t rows = spins.size();
@@ -134,12 +150,18 @@ void runMarkovChain(size_t L, double temperature, int numSteps, int numSweeps, i
     // Random number generator for spin for acceptance criterion
     uniform_real_distribution<double> probDist(0.0, 1.0);
 
-    cout << " Initial spin configuration: " << endl;
-    printSpinMatrix(spins);
-    double initialEnergy = Energy(spins) / (L * L);
-    cout << "The energy of the initial configuration is: " << initialEnergy << endl;
+    if (outputProgress == true) {
+        cout << " Initial spin configuration: " << endl;
+        printSpinMatrix(spins);
+        double initialEnergy = Energy(spins) / (L * L);
+        cout << "The energy of the initial configuration is: " << initialEnergy << endl;
+    }
 
-    for (int sweep=0; sweep<numSweeps; sweep++){
+    // Initialise lists for observable measurements
+    list<double> energyMeasurements = {};
+    list<double> magSqMeasurements = {};
+
+    for (int sweep=0; sweep<numSweeps+transientSweeps; sweep++){
         for (int step=0; step<numSteps; step++){
             vector<int> spin_to_flip = { spinCoordDist(gen), spinCoordDist(gen) };
             int iFlip = spin_to_flip[0];
@@ -155,17 +177,26 @@ void runMarkovChain(size_t L, double temperature, int numSteps, int numSweeps, i
             }
         }
 
+        // Measure
+        if (sweep >= transientSweeps){
+            energyMeasurements.push_back( Energy(spins) / (L*L) );
+            magSqMeasurements.push_back(getMagSq(spins));
+        }
+
         if ( outputProgress == true ){
             cout << "Sweep " << sweep+1 << " of " << numSweeps << " complete." << endl;
         }
     }
 
-    cout << "Final spin configuration after " << numSweeps << " sweeps: " << endl;
-    printSpinMatrix(spins);
+    if (outputProgress == true) {
+        cout << "Final spin configuration after " << numSweeps << " sweeps: " << endl;
+        printSpinMatrix(spins);
 
-    double finalEnergy = Energy(spins) / (L * L);
-    cout << "The normalised energy of final configuration is: " << finalEnergy << endl;
+        double finalEnergy = Energy(spins) / (L * L);
+        cout << "The normalised energy of final configuration is: " << finalEnergy << endl;
+    }
 
+    return make_tuple(energyMeasurements, magSqMeasurements);
 }
 
 PYBIND11_MODULE(IsingMarkovChainMonteCarlo, handle) {
@@ -175,6 +206,16 @@ PYBIND11_MODULE(IsingMarkovChainMonteCarlo, handle) {
 
     handle.def("runIsingMarkovChainCPP", &runMarkovChain, "Runs the MarkovChain on an Ising Model spin lattice.",
                 py::arg("L"), py::arg("T"), py::arg("numSteps"), py::arg("numSweeps"), py::arg("transientSweeps")=20, py::arg("outputProgress")=true); 
+}
+
+double expectationValue(list<double> observableMeasurements){
+    if (observableMeasurements.empty()){
+        return 0.0;
+    }
+
+    double sum = accumulate(observableMeasurements.begin(), observableMeasurements.end(), 0);
+
+    return sum / observableMeasurements.size();
 }
 
 
@@ -195,12 +236,18 @@ int main() {
     cin >> temperature;
     cout << "\n";
 
-    bool outputProgress = false;
-
     // Initial testing
     // runEnergyCalculationTests(L);
 
-    runMarkovChain(L, temperature, numSteps, numSweeps);
+    // Testing the runMarkovChainFunction
+    list<double> energyMeasurements;
+    list<double> magSqMeasurements; 
+    tie(energyMeasurements, magSqMeasurements) = runMarkovChain(L, temperature, numSteps, numSweeps);
+
+    double energyExpectation = expectationValue(energyMeasurements);
+    double magSqExpectation = expectationValue(magSqMeasurements);
+    
+    cout << "The expectation values for the energy and magnetisation squared are, respectively: " << energyExpectation << " and " << magSqExpectation << endl;
 
     return 0;
 }
