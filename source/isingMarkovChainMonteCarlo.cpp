@@ -137,7 +137,7 @@ void runMarkovChain(size_t L, double temperature, int numSteps, int numSweeps, i
     cout << " Initial spin configuration: " << endl;
     printSpinMatrix(spins);
     double initialEnergy = Energy(spins) / (L * L);
-    cout << "The energy of the initial configuration is :" << initialEnergy << endl;
+    cout << "The energy of the initial configuration is: " << initialEnergy << endl;
 
     for (int sweep=0; sweep<numSweeps; sweep++){
         for (int step=0; step<numSteps; step++){
@@ -164,7 +164,7 @@ void runMarkovChain(size_t L, double temperature, int numSteps, int numSweeps, i
     printSpinMatrix(spins);
 
     double finalEnergy = Energy(spins) / (L * L);
-    cout << "The normalised energy of final configuration is :" << finalEnergy << endl;
+    cout << "The normalised energy of final configuration is: " << finalEnergy << endl;
 
 }
 
