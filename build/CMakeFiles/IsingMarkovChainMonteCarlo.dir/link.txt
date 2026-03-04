@@ -1,0 +1,1 @@
+/usr/bin/c++  -arch arm64 -bundle -Wl,-headerpad_max_install_names -Xlinker -undefined -Xlinker dynamic_lookup -flto -o IsingMarkovChainMonteCarlo.cpython-314-darwin.so CMakeFiles/IsingMarkovChainMonteCarlo.dir/source/isingMarkovChainMonteCarlo.cpp.o
