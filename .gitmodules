@@ -2,3 +2,6 @@
 	path = extern/pybind11
 	url = ../../pybind/pybind11
 	branch = stable
+[submodule "extern/tracy"]
+	path = extern/tracy
+	url = https://github.com/wolfpld/tracy.git

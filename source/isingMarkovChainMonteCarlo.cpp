@@ -5,10 +5,11 @@
 #include <list>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-
-using namespace std;
+#include <tracy/Tracy.hpp>
 
 namespace py = pybind11;
+
+using namespace std;
 
 // Function for generating a random matrix of size (rows, cols) with up or down spins represented by +1, -1
 vector<vector<int>> generateRandomSpinMatrix(size_t rows, size_t cols){
@@ -32,7 +33,7 @@ vector<vector<int>> generateRandomSpinMatrix(size_t rows, size_t cols){
 }
 
 
-float Energy(vector<vector<int>> spins){
+float Energy(vector<vector<int>> &spins){
     size_t rows = spins.size();
     size_t cols = spins[0].size();
     float total_energy = 0;
@@ -55,7 +56,7 @@ float Energy(vector<vector<int>> spins){
     return total_energy;
 }
 
-int deltaE(vector<vector<int>> spins, vector<int> spin_to_flip){
+int deltaE(vector<vector<int>> &spins, vector<int> &spin_to_flip){
     int i = spin_to_flip[0];
     int j = spin_to_flip[1];
     size_t rows = spins.size();
@@ -73,7 +74,7 @@ int deltaE(vector<vector<int>> spins, vector<int> spin_to_flip){
     return 2 * spins[i][j] * nn_sum;
 }
 
-double getMagSq(vector<vector<int>> spins){
+double getMagSq(vector<vector<int>> &spins){
     size_t rows = spins.size();
     size_t cols = (rows > 0) ? spins[0].size() : 0;
     size_t total_size = rows * cols;
@@ -136,7 +137,7 @@ void runEnergyCalculationTests(size_t latticeLength) {
     cout << "The value of deltaE calculated using the Energy function is " << dE_manual << endl;
 }
 
-tuple<list<double>, list<double>> runMarkovChain(size_t L, double temperature, int numSteps, int numSweeps, int transientSweeps=20, bool outputProgress=false){
+tuple<vector<double>, vector<double>> runMarkovChain(size_t L, double temperature, int numSteps, int numSweeps, int transientSweeps=20, bool outputProgress=false){
     
     vector<vector<int>> spins = generateRandomSpinMatrix(L, L);
     size_t rows = spins.size();
@@ -158,8 +159,8 @@ tuple<list<double>, list<double>> runMarkovChain(size_t L, double temperature, i
     }
 
     // Initialise lists for observable measurements
-    list<double> energyMeasurements = {};
-    list<double> magSqMeasurements = {};
+    vector<double> energyMeasurements = {};
+    vector<double> magSqMeasurements = {};
 
     for (int sweep=0; sweep<numSweeps+transientSweeps; sweep++){
         for (int step=0; step<numSteps; step++){
@@ -167,8 +168,7 @@ tuple<list<double>, list<double>> runMarkovChain(size_t L, double temperature, i
             int iFlip = spin_to_flip[0];
             int jFlip = spin_to_flip[1];
             double dE = deltaE(spins, spin_to_flip);
-            double exponent = - dE / temperature;
-            double acceptanceProb = exp(exponent);
+            double acceptanceProb = exp(- dE / temperature);
             if (dE < 0) {
                 spins[iFlip][jFlip] = - spins[iFlip][jFlip];
             }
@@ -208,7 +208,7 @@ PYBIND11_MODULE(IsingMarkovChainMonteCarlo, handle) {
                 py::arg("L"), py::arg("T"), py::arg("numSteps"), py::arg("numSweeps"), py::arg("transientSweeps")=20, py::arg("outputProgress")=true); 
 }
 
-double expectationValue(list<double> observableMeasurements){
+double expectationValue(vector<double> &observableMeasurements){
     if (observableMeasurements.empty()){
         return 0.0;
     }
@@ -240,13 +240,20 @@ int main() {
     // runEnergyCalculationTests(L);
 
     // Testing the runMarkovChainFunction
-    list<double> energyMeasurements;
-    list<double> magSqMeasurements; 
+    vector<double> energyMeasurements;
+    vector<double> magSqMeasurements; 
+
+    auto start = chrono::steady_clock::now();
     tie(energyMeasurements, magSqMeasurements) = runMarkovChain(L, temperature, numSteps, numSweeps);
+    auto end = chrono::steady_clock::now();
+
+    auto duration = chrono::duration_cast<chrono::seconds>(end - start);
 
     double energyExpectation = expectationValue(energyMeasurements);
     double magSqExpectation = expectationValue(magSqMeasurements);
     
+
+    cout << "The Markov Chain algorithm took " << duration.count() << " seconds." << endl;
     cout << "The expectation values for the energy and magnetisation squared are, respectively: " << energyExpectation << " and " << magSqExpectation << endl;
 
     return 0;
