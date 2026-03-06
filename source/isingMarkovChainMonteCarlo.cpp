@@ -13,7 +13,7 @@ using namespace std;
 
 // Function for generating a random matrix of size (rows, cols) with up or down spins represented by +1, -1
 vector<vector<int>> generateRandomSpinMatrix(size_t rows, size_t cols){
-
+    ZoneScoped;
     vector<vector<int>> spins(rows, vector<int>(cols));
 
     // Seed the random number generator with current time
@@ -33,7 +33,8 @@ vector<vector<int>> generateRandomSpinMatrix(size_t rows, size_t cols){
 }
 
 
-float Energy(vector<vector<int>> &spins){
+float Energy(const vector<vector<int>> &spins){
+    ZoneScoped;
     size_t rows = spins.size();
     size_t cols = spins[0].size();
     float total_energy = 0;
@@ -56,7 +57,8 @@ float Energy(vector<vector<int>> &spins){
     return total_energy;
 }
 
-int deltaE(vector<vector<int>> &spins, vector<int> &spin_to_flip){
+int deltaE(const vector<vector<int>> &spins, const vector<int> &spin_to_flip){
+    ZoneScoped;
     int i = spin_to_flip[0];
     int j = spin_to_flip[1];
     size_t rows = spins.size();
@@ -74,7 +76,8 @@ int deltaE(vector<vector<int>> &spins, vector<int> &spin_to_flip){
     return 2 * spins[i][j] * nn_sum;
 }
 
-double getMagSq(vector<vector<int>> &spins){
+double getMagSq(const vector<vector<int>> &spins){
+    ZoneScoped;
     size_t rows = spins.size();
     size_t cols = (rows > 0) ? spins[0].size() : 0;
     size_t total_size = rows * cols;
@@ -139,6 +142,8 @@ void runEnergyCalculationTests(size_t latticeLength) {
 
 tuple<vector<double>, vector<double>> runMarkovChain(size_t L, double temperature, int numSteps, int numSweeps, int transientSweeps=20, bool outputProgress=false){
     
+    ZoneScopedN("MarkovChainAlgorithm")
+
     vector<vector<int>> spins = generateRandomSpinMatrix(L, L);
     size_t rows = spins.size();
     size_t cols = spins[0].size();
