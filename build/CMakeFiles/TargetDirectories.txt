@@ -1,5 +1,0 @@
-/Users/a1744052/Documents/Projects/IsingModel/build/CMakeFiles/IsingMarkovChainMonteCarlo.dir
-/Users/a1744052/Documents/Projects/IsingModel/build/CMakeFiles/edit_cache.dir
-/Users/a1744052/Documents/Projects/IsingModel/build/CMakeFiles/rebuild_cache.dir
-/Users/a1744052/Documents/Projects/IsingModel/build/extern/pybind11/CMakeFiles/edit_cache.dir
-/Users/a1744052/Documents/Projects/IsingModel/build/extern/pybind11/CMakeFiles/rebuild_cache.dir
