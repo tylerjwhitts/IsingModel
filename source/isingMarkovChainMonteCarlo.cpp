@@ -180,6 +180,7 @@ tuple<vector<double>, vector<double>> runMarkovChain(size_t L, double temperatur
             else if (probDist(gen) < acceptanceProb) {
                 spins[iFlip][jFlip] = - spins[iFlip][jFlip];
             }
+            FrameMark;
         }
 
         // Measure
@@ -191,6 +192,7 @@ tuple<vector<double>, vector<double>> runMarkovChain(size_t L, double temperatur
         if ( outputProgress == true ){
             cout << "Sweep " << sweep+1 << " of " << numSweeps << " complete." << endl;
         }
+        FrameMark;
     }
 
     if (outputProgress == true) {
