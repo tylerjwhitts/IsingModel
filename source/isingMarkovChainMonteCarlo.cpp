@@ -3,9 +3,9 @@
 #include <random>
 #include <chrono>
 #include <list>
+#include <tracy/Tracy.hpp>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <tracy/Tracy.hpp>
 
 namespace py = pybind11;
 
@@ -76,6 +76,18 @@ int deltaE(const vector<vector<int>> &spins, const vector<int> &spin_to_flip){
     return 2 * spins[i][j] * nn_sum;
 }
 
+double getSpinSum(const vector<vector<int>> &spins){
+    size_t rows = spins.size();
+    size_t cols = (rows > 0) ? spins[0].size() : 0;
+    double spinSum = 0.0;
+    for (int i=0; i < rows; ++i) {
+        for (int j=0; j < cols; ++j) {
+            spinSum += spins[i][j];
+        }
+    }
+    return spinSum;
+}
+
 double getMagSq(const vector<vector<int>> &spins){
     ZoneScoped;
     size_t rows = spins.size();
@@ -140,7 +152,7 @@ void runEnergyCalculationTests(size_t latticeLength) {
     cout << "The value of deltaE calculated using the Energy function is " << dE_manual << endl;
 }
 
-tuple<vector<double>, vector<double>> runMarkovChain(size_t L, double temperature, int numSteps, int numSweeps, int transientSweeps=20, bool outputProgress=false){
+tuple<vector<double>, vector<double>> runMarkovChain(size_t L, double temperature, int numSteps, int numSweeps, int transientSweeps=20, bool completeMeasure=false, bool outputProgress=false){
     
     ZoneScopedN("MarkovChainAlgorithm")
 
@@ -156,11 +168,17 @@ tuple<vector<double>, vector<double>> runMarkovChain(size_t L, double temperatur
     // Random number generator for spin for acceptance criterion
     uniform_real_distribution<double> probDist(0.0, 1.0);
 
+    // Initial energy of the system and total spin sum
+    double isingEnergy = Energy(spins);
+    double spinSum = getSpinSum(spins);
+
+    // Initial spin sum
+
+
     if (outputProgress == true) {
         cout << " Initial spin configuration: " << endl;
         printSpinMatrix(spins);
-        double initialEnergy = Energy(spins) / (L * L);
-        cout << "The energy of the initial configuration is: " << initialEnergy << endl;
+        cout << "The energy of the initial configuration is: " << isingEnergy << endl;
     }
 
     // Initialise lists for observable measurements
@@ -176,17 +194,31 @@ tuple<vector<double>, vector<double>> runMarkovChain(size_t L, double temperatur
             double acceptanceProb = exp(- dE / temperature);
             if (dE < 0) {
                 spins[iFlip][jFlip] = - spins[iFlip][jFlip];
+                isingEnergy += dE;
+                spinSum += 2*spins[iFlip][jFlip]; // Add spin twice to remove old spin
             }
             else if (probDist(gen) < acceptanceProb) {
                 spins[iFlip][jFlip] = - spins[iFlip][jFlip];
+                isingEnergy += dE;
+                spinSum += 2*spins[iFlip][jFlip];
             }
             FrameMark;
         }
 
         // Measure
         if (sweep >= transientSweeps){
+            if (completeMeasure==true){
             energyMeasurements.push_back( Energy(spins) / (L*L) );
             magSqMeasurements.push_back(getMagSq(spins));
+            }
+            else {
+            // Switch to storing the energy and mag of system 
+            // and altering it by deltaE or -2S each time a spin flip is accepted
+            // Complexity goes from O(N) to O(1)
+            energyMeasurements.push_back( isingEnergy / (L * L));
+            double mag = spinSum / (L * L);
+            magSqMeasurements.push_back(mag * mag);
+            }
         }
 
         if ( outputProgress == true ){
@@ -212,8 +244,9 @@ PYBIND11_MODULE(IsingMarkovChainMonteCarlo, handle) {
                       Observables energy and magnetisation are recorded at each sweep.)";
 
     handle.def("runIsingMarkovChainCPP", &runMarkovChain, "Runs the MarkovChain on an Ising Model spin lattice.",
-                py::arg("L"), py::arg("T"), py::arg("numSteps"), py::arg("numSweeps"), py::arg("transientSweeps")=20, py::arg("outputProgress")=true); 
+                py::arg("L"), py::arg("T"), py::arg("numSteps"), py::arg("numSweeps"), py::arg("transientSweeps")=20, py::arg("completeMeasure")=true, py::arg("outputProgress")=true); 
 }
+
 
 double expectationValue(vector<double> &observableMeasurements){
     if (observableMeasurements.empty()){
@@ -230,7 +263,7 @@ int main() {
 
     int numSweeps = 1000;
     int numSteps = 100;
-    int transient_sweeps = 20;
+    int transientSweeps = 20;
     
     size_t L;
     double temperature;
@@ -243,10 +276,15 @@ int main() {
     cin >> temperature;
     cout << "\n";
 
+    // L = 3;
+    // temperature = 2.0;
+
     // Initial testing
     // runEnergyCalculationTests(L);
 
     // Testing the runMarkovChainFunction
+    
+    // Without completely measuring observables each time
     vector<double> energyMeasurements;
     vector<double> magSqMeasurements; 
 
@@ -260,8 +298,25 @@ int main() {
     double magSqExpectation = expectationValue(magSqMeasurements);
     
 
-    cout << "The Markov Chain algorithm took " << duration.count() << " seconds." << endl;
+    cout << "The Markov Chain algorithm took " << duration.count() << " seconds without complete measurements each time." << endl;
     cout << "The expectation values for the energy and magnetisation squared are, respectively: " << energyExpectation << " and " << magSqExpectation << endl;
+
+    // Completely measuring observables each time
+    bool completeMeasure = true;
+    vector<double> energyMeasurementsComplete;
+    vector<double> magSqMeasurementsComplete; 
+    auto startComplete = chrono::steady_clock::now();
+    tie(energyMeasurementsComplete, magSqMeasurementsComplete) = runMarkovChain(L, temperature, numSteps, numSweeps, transientSweeps, completeMeasure);
+    auto endComplete = chrono::steady_clock::now();
+
+    auto durationComplete = chrono::duration_cast<chrono::seconds>(endComplete - startComplete);
+
+    double energyExpectationComplete = expectationValue(energyMeasurementsComplete);
+    double magSqExpectationComplete = expectationValue(magSqMeasurementsComplete);
+    
+
+    cout << "The Markov Chain algorithm took " << durationComplete.count() << " seconds when performing complete measurements each time." << endl;
+    cout << "The expectation values for the energy and magnetisation squared are, respectively: " << energyExpectationComplete << " and " << magSqExpectationComplete << endl;
 
     return 0;
 }
