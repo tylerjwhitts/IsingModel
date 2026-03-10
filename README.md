@@ -19,7 +19,7 @@ mv IsingMarkovChainMonteCarlo.cpython-314-darwin.so ../IsingMarkovChainMonteCarl
 ```
 6. You can now import the library as you would any other Python module.
 
-Note: This also creates a test executable for just the C++ code. In order for this to work the correct include directories must be in your compilation flags:
+NOTE: The CMake process also creates a test executable for the C++ code. In order for this to compile correctly the following header directories must be in your include compilation flags:
 - The tracy directory: `${workspaceFolder}/extern/tracy/public/`
-- The pybind11 directory: "${workspaceFolder}/extern/pybind11/include/"
+- The pybind11 directory: `${workspaceFolder}/extern/pybind11/include/`
 - The directory where your `Python.h` file is stored. For a homebrew installed python this will look something like `/opt/homebrew/Cellar/python@3.14/3.14.2_1/Frameworks/Python.framework/Versions/3.14/include/python3.14/`.
